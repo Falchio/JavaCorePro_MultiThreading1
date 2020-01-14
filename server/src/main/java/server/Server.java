@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
     private Vector<ClientHandler> clients;
@@ -24,19 +26,22 @@ public class Server {
         ServerSocket server = null;
         Socket socket = null;
 
+        ExecutorService cashedTreadPool = null;
         try {
             server = new ServerSocket(8189);
             System.out.println("Сервер запущен");
+            cashedTreadPool = Executors.newCachedThreadPool();
 
             while (true) {
                 socket = server.accept();
                 System.out.println("Клиент подключился");
-                new ClientHandler(this, socket);
+                cashedTreadPool.execute(new ClientHandler(this, socket));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            cashedTreadPool.shutdownNow();
             SQLHandler.disconnect();
             try {
                 server.close();

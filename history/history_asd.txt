@@ -17,3 +17,6 @@ zzzz : mmm
 zzzz : sadfsadf
 zzzz : уке цуке уцке у
 zzzz : цук еуцке уцк
+zzzz : раз раз
+bbb1 : готово что ли?
+bbb : 1
